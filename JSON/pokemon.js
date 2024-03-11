@@ -37,6 +37,7 @@ class Pokemon {
         Base Attack: ${this.base_attack}, Base Defense: ${this.base_defense}, Base Stamina: ${this.base_stamina}`;
     }
     
+    /*
     import_pokemon(data) {
         let all_pokemons = {};
     
@@ -53,9 +54,29 @@ class Pokemon {
         });
     
         return all_pokemons;
-    }
+    }*/
     
     // Utilisation de la fonction
     // let all_pokemons = import_pokemon(pokemon);
+
+    import_pokemon(data) {
+        let all_pokemons = {};
+        data.forEach(pokemonData => {
+            const pokemon = new Pokemon(
+                pokemonData.base_attack,
+                pokemonData.base_defense,
+                pokemonData.base_stamina,
+                pokemonData.form,
+                pokemonData.pokemon_id,
+                pokemonData.pokemon_name
+            );
+            if (all_pokemons[pokemonData.pokemon_id]) {
+                all_pokemons[pokemonData.pokemon_id].push(pokemon);
+            } else {
+                all_pokemons[pokemonData.pokemon_id] = [pokemon];
+            }
+        });
+        return all_pokemons;
+    }
     
 }
