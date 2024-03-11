@@ -8,9 +8,11 @@ class Pokemon {
         this.pokemon_name = pokemon_name;
     }
 
+    static all_pokemons = {};
+
     get base_attack() {
         return this.base_attack;
-    }
+    }   
 
     get base_defense() {
         return this.base_defense;
@@ -36,47 +38,17 @@ class Pokemon {
         return `Pokemon: ${this.pokemon_name}, ID: ${this.pokemon_id}, Form: ${this.form}, 
         Base Attack: ${this.base_attack}, Base Defense: ${this.base_defense}, Base Stamina: ${this.base_stamina}`;
     }
-    
-    /*
-    import_pokemon(data) {
-        let all_pokemons = {};
-    
-        data.forEach(pokemonData => {
-            let pokemon = new Pokemon(
-                pokemonData.base_attack,
-                pokemonData.base_defense,
-                pokemonData.base_stamina,
-                pokemonData.form,
-                pokemonData.pokemon_id,
-                pokemonData.pokemon_name
-            );
-            all_pokemons[pokemonData.pokemon_id] = pokemon;
-        });
-    
-        return all_pokemons;
-    }*/
-    
-    // Utilisation de la fonction
-    // let all_pokemons = import_pokemon(pokemon);
 
     import_pokemon(data) {
-        let all_pokemons = {};
+        
         data.forEach(pokemonData => {
-            const pokemon = new Pokemon(
-                pokemonData.base_attack,
-                pokemonData.base_defense,
-                pokemonData.base_stamina,
-                pokemonData.form,
-                pokemonData.pokemon_id,
-                pokemonData.pokemon_name
-            );
-            if (all_pokemons[pokemonData.pokemon_id]) {
-                all_pokemons[pokemonData.pokemon_id].push(pokemon);
-            } else {
-                all_pokemons[pokemonData.pokemon_id] = [pokemon];
-            }
+            const { base_attack, base_defense, base_stamina, form, pokemon_id, pokemon_name } = pokemonData;
+            const pokemon = new Pokemon(base_attack, base_defense, base_stamina, form, pokemon_id, pokemon_name);
+            all_pokemons[pokemon.pokemon_id] = pokemon;
         });
+    
         return all_pokemons;
     }
-    
 }
+
+

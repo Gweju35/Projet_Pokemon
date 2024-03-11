@@ -13,25 +13,7 @@
 <body>
     
 </body>
-<script>
 
-    function import_pokemon(data){
-    let all_pokemons = {};
-    data.forEach(pokemonData => {
-        const pokemon = new Pokemon(pokemonData);
-        if (all_pokemons[pokemonData.pokemon_id]) {
-            all_pokemons[pokemonData.pokemon_id].push(pokemon);
-        } else {
-            all_pokemons[pokemonData.pokemon_id] = [pokemon];
-        }
-    });
-    return all_pokemons;
-}
 
-    // Appel de la fonction import_pokemon et stockage du résultat dans all_pokemons
-    let all_pokemons = import_pokemon(pokemons.pokemon);
-
-    // Affichage de all_pokemons dans la console pour tester
-    console.log(all_pokemons);
-</script>
+    
 </html>
