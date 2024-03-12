@@ -41,11 +41,13 @@ class Pokemon {
 
     static import_pokemon(source) {
         source.forEach(pokemonData => {
-            let pokemon = new Pokemon(pokemonData.base_attack, pokemonData.base_defense, pokemonData.base_stamina, pokemonData.form, pokemonData.pokemon_id, pokemonData.pokemon_name);
-            if (!Pokemon.all_pokemons[pokemon.pokemon_id]) {
-                Pokemon.all_pokemons[pokemon.pokemon_id] = [];
+            if (pokemonData.form === "Normal") {
+                let pokemon = new Pokemon(pokemonData.base_attack, pokemonData.base_defense, pokemonData.base_stamina, pokemonData.form, pokemonData.pokemon_id, pokemonData.pokemon_name);
+                if (!Pokemon.all_pokemons[pokemon.pokemon_id]) {
+                    Pokemon.all_pokemons[pokemon.pokemon_id] = [];
+                }
+                Pokemon.all_pokemons[pokemon.pokemon_id].push(pokemon);
             }
-            Pokemon.all_pokemons[pokemon.pokemon_id].push(pokemon);
         });
         return Pokemon.all_pokemons;
     }
