@@ -5,19 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebApp Pokemon</title>
-    <script src="./JSON/pokemons.js" defer> </script>
-    <script src="./JSON/pokemon.js" defer> </script>
-    
+    <script src="./JSON/pokemons.js" defer></script>
+    <script src="./JSON/pokemon.js" defer></script>
 </head>
 
 <body>
+    <ul id="pokemonList"></ul>
 
     <script>
-        
+        window.onload = function() {
+            // Appeler la fonction d'importation des Pokémon
+            const all_pokemons = Pokemon.import_pokemon(pokemon);
+
+            // Récupérer l'élément ul
+            const pokemonList = document.getElementById("pokemonList");
+
+            // Parcourir les Pokémon importés et les afficher dans la liste
+            for (const pokemonId in all_pokemons) {
+                all_pokemons[pokemonId].forEach(pokemon => {
+                    const li = document.createElement("li");
+                    li.textContent = pokemon.toString();
+                    pokemonList.appendChild(li);
+                });
+            }
+        };
     </script>
-    
 </body>
 
-
-    
 </html>
