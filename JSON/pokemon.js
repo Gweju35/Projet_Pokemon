@@ -52,3 +52,5 @@ class Pokemon {
         return Pokemon.all_pokemons;
     }
 }
+
+
