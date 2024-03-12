@@ -50,5 +50,3 @@ class Pokemon {
         return Pokemon.all_pokemons;
     }
 }
-
-console.log(Pokemon.import_pokemon(pokemons.pokemon));
