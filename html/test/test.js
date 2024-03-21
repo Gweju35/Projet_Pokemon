@@ -1,7 +1,14 @@
-let all_pokemons = Pokemon.import_pokemon(); // Liste de tous les pokémons + leur type et attaques
-let all_types = Pokemon.getTypes(); // Liste de tous les types de pokémons
-let all_attacks = Pokemon.getAttacks(); // Liste de toutes les attaques
+let all_pokemons = Pokemon.import_pokemon(); // Liste tous les pokémons + leur type et attaques
+// console.table(all_pokemons);
+
+let all_types = Pokemon.getTypes(); // Liste tous les types de pokémons
+// console.table(all_types);
+
+let all_attacks = Pokemon.getAttacks(); // Liste toutes les attaques
+// console.table(all_attacks);
+
 let effectiveness = Pokemon.importEffectiveness(); // Tableau de rapport d'efficacité entre les types de pokémons
+// console.table(effectiveness);
 
 
 // Donne la liste des Pokémons par type

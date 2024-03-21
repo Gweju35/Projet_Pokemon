@@ -92,13 +92,20 @@ class Pokemon {
         let allTypes = [];
         for (let typeData of pokemon_types) {
             for (let type of typeData.type) {
-                if (!allTypes.includes(type)) {
-                    allTypes.push(type);
+                let newType = new Type({
+                    form: typeData.form,
+                    pokemon_id: typeData.pokemon_id,
+                    pokemon_name: typeData.pokemon_name,
+                    type: type
+                });
+                if (!allTypes.some(t => t.toString() === newType.toString())) {
+                    allTypes.push(newType);
                 }
             }
         }
         return allTypes;
     }
+    
 
 
     // Renvoie la liste de toutes les attaques 
