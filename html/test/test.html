@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>WebApp Pokemon</title>
+        <script src="../data/pokemons.js" defer></script>
+        <script src="../data/type_effectiveness.js" defer></script>
+        <script src="../data/pokemon_type.js" defer></script>
+        <script src="../data/charged_moves.js" defer></script>
+        <script src="../data/fast_moves.js" defer></script>
+        <script src="../data/pokemon_moves.js" defer></script>
+        <script src="../data/pokemon.js" defer></script>
+        <script src="../data/type.js" defer></script>
+        <script src="../data/attack.js" defer></script>
+        <script src="./test.js" defer></script>
+
+        <style>
+            a {margin-right: 40px;}
+            li {margin-bottom: 10px;}
+        </style>
+    </head>
+
+    <body>
+
+        <h1>Tests Pokemon</h1>
+        <ul>
+            <li><a href="#" onclick="testGetPokemonsByType()">Test GetPokemonsByType</a> (Requiert un type de pokémon)</li>
+
+            <li><a href="#" onclick="testGetPokemonsByAttack()">Test GetPokemonsByAttack</a> (Requiert une attaque de pokémon)</li>
+
+            <li><a href="#" onclick="testGetAttacksByType()">Test GetAttacksByType</a> (Requiert un type de Pokémon)</li>
+
+            <li><a href="#" onclick="testSortPokemonByName()">Test SortPokemonByName</a> (Ne requiert pas d'argument)</li>
+
+            <li><a href="#" onclick="testSortPokemonByStamina()">Test SortPokemonByStamina</a> (Ne requiert pas d'argument)</li>
+
+            <li><a href="#" onclick="testGetWeakestEnemies()">Test GetWeakestEnemies</a> (Requiert une attaque de pokémon)</li>
+
+            <li><a href="#" onclick="testGetBestAttackTypesForEnemy()">Test GetBestAttackTypesForEnemy</a> (Requiert un nom de pokémon)</li>
+        </ul>
+
+        <label for="testInput">Champ commun :</label>
+        <input type="text" id="testInput">
+
+    </body>
+
+</html>
