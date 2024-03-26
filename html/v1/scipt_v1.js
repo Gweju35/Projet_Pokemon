@@ -1,77 +1,70 @@
-function getPokemonDetails() {
-    all_pokemons = Pokemon.import_pokemon();
-    console.log(all_pokemons);
-    let ID = all_pokemons.pokemon_id;
-    let NOM = all_pokemons.pokemon_name;
-    let ATTACK = all_pokemons.base_attack;
-    let DEFENSE = all_pokemons.base_defense;
-    let STAMINA = all_pokemons.base_stamina;
-    let TYPES = all_pokemons.types;
-    /* On renvoie la GEN par rapport à l'ID du pokemon */
+let listePokemons = Pokemon.import_pokemon();
 
+// <tbody> est l'endroit où on va afficher les Pokémons
+let tbody = document.getElementById('tableauPokemon');
 
+// On parcourt la liste d'objets des Pokémons et on créer une ligne de tableau pour chaque
+for (let pokemonId in listePokemons) {
+    let pokemon = listePokemons[pokemonId];
+    let generation = findGeneration(pokemon.pokemon_id); // on cherche la gen du Pokémon
 
-    let ID_number = ID.toString();
+    // on créer une nouvelle ligne de tableau
+    let row = tbody.insertRow();
 
-    if (ID_number.length < 2 && ID_number.length > 0) {
-        ID_number = ID_number.toString().padStart(3, '00');
-    }
-    else if (ID_number.length > 1 && ID_number.length < 3) {
-        ID_number = ID_number.toString().padStart(3, '0');
-    }
+    // on remplis les cellules de la ligne avec les données 
+    let cellID = row.insertCell(0);
+    cellID.textContent = pokemon.pokemon_id; // id du Pokémon
 
-    var image = document.createElement('img');
-    image.src = `../webp/images/${ID}.webp`;
-    document.getElementById('imageContainer').appendChild(image);
+    let cellNom = row.insertCell(1);
+    cellNom.textContent = pokemon.pokemon_name; // nom du Pokémon
 
-    /*// Variable contenant le nombre
-let number = 733;
+    let cellGen = row.insertCell(2);
+    cellGen.textContent = generation; // génération du Pokémon
 
-// Convertir le nombre en chaîne de caractères
-let numberString = number.toString();
+    let cellTypes = row.insertCell(3);
+    cellTypes.textContent = pokemon.types.join(', '); // types du Pokémon
 
-// Vérifier la longueur de la chaîne
-if (numberString.length < 2) {
-    // Ajouter un zéro devant si la longueur est inférieure à 2
-    numberString = "0" + numberString;
+    let cellStamina = row.insertCell(4);
+    cellStamina.textContent = pokemon.base_stamina; // stamina du Pokémon
+
+    let cellAttack = row.insertCell(5);
+    cellAttack.textContent = pokemon.base_attack; // attaque du Pokémon
+
+    let cellDefense = row.insertCell(6);
+    cellDefense.textContent = pokemon.base_defense; // défense du Pokémon
+
+    let idFormat = idPokemonImage(pokemon); // on formate l'id du Pokémon pour retrouver l'image
+    let cellImage = row.insertCell(7);
+    let img = document.createElement('img'); // on créer la balise img
+    img.src = `../webp/images/${idFormat}.webp`; // image du Pokémon
+    img.alt = pokemon.pokemon_name; 
+    cellImage.appendChild(img); 
 }
 
-// Afficher le résultat
-console.log(numberString); // Cela affichera le nombre avec au moins 2 caractères dans la console*/
-
-
-
+// Fonction pour trouver le generation_number d'un Pokémon grâce à son ID
+function findGeneration(pokemonId) {
+    for (let genName in generation) {
+        let pokemonsInGen = generation[genName];
+        for (let pokemon of pokemonsInGen) {
+            if (pokemon.id === pokemonId) {
+                return pokemon.generation_number;
+            }
+        }
+    }
+    return "Génération inconnue";
 }
 
+// Fonction pour formater l'ID du Pokémon pour retrouver l'image
+function idPokemonImage(pokemon) {
+    let idNumber = pokemon.pokemon_id.toString();
 
-
-
-
-
-
-
-
-
-
-
-
-
-/* POUR LA GEN :
-
-let generation1 = generation["Generation 1"];
-let generation2 = generation["Generation 2"];
-let generation3 = generation["Generation 3"];
-let generation4 = generation["Generation 4"];
-let generation5 = generation["Generation 5"];
-let generation6 = generation["Generation 6"];
-let generation7 = generation["Generation 7"];
-let generation8 = generation["Generation 8"];
-
-for (let pokemon of generation7) {
-    if (pokemon.id === 733) {
-        let generation_number = pokemon.generation_number;
-        console.log("generation_number:", generation_number);
-        break;
+    if (idNumber.length < 2 && idNumber.length > 0) { // Si l'ID a 1 seul chiffre on lui rajoute '00' devant
+        idNumber = idNumber.toString().padStart(3, '00'); // 3 devient 003
     }
-}*/
 
+    else if (idNumber.length > 1 && idNumber.length < 3) { // Si l'ID a 2 chiffres on lui rajoute '0' devant
+        idNumber = idNumber.toString().padStart(3, '0'); // 11 devient 011
+    } 
+
+    return idNumber;
+}
