@@ -1,12 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebApp Pokemon</title>
+    <script src="../data/pokemons.js" defer></script>
+    <script src="../data/type_effectiveness.js" defer></script>
+    <script src="../data/pokemon_type.js" defer></script>
+    <script src="../data/charged_moves.js" defer></script>
+    <script src="../data/fast_moves.js" defer></script>
+    <script src="../data/pokemon_moves.js" defer></script>
+    <script src="../data/class_pokemon.js" defer></script>
+    <script src="../data/class_type.js" defer></script>
+    <script src="../data/class_attack.js" defer></script>
+    <script src="../data/generation.js" defer></script>
     <script src="./scipt_v1.js" defer></script>
+
+    <link rel="stylesheet" href="../css/style_v1.css">
 </head>
+
 <body>
-    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>NOM</th>
+                <th>GEN</th>
+                <th>TYPES</th>
+                <th>STAMINA</th>
+                <th>ATTACK</th>
+                <th>DEFENSE</th>
+                <th>URL</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td id="ID"></td>
+                <td id="NOM"></td>
+                <td id="GEN"></td>
+                <td id="TYPES"></td>
+                <td id="STAMINA"></td>
+                <td id="ATTACK"></td>
+                <td id="DEFENSE"></td>
+                <td>
+                    <div id="imageContainer"></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <script>
+        window.onload = function() {
+            getPokemonDetails();
+        };
+        
+
+        
+    </script>
+
+
 </body>
+
 </html>

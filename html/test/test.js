@@ -10,6 +10,11 @@ let all_attacks = Pokemon.getAttacks(); // Liste toutes les attaques
 let effectiveness = Pokemon.importEffectiveness(); // Tableau de rapport d'efficacité entre les types de pokémons
 // console.table(effectiveness);
 
+function test(){
+    console.clear();
+    console.table(all_pokemons);
+}
+
 
 // Donne la liste des Pokémons par type
 function testGetPokemonsByType() {

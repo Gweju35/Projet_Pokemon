@@ -3,23 +3,23 @@
 // Pokemon that are from that generation. 
 // Each Pokemon entry has its name, Pokemon ID, and generation number.
 
-let generation = {
-    "Generation 1": [
-        {
-            "generation_number": 1,
-            "id": 1,
-            "name": "Bulbasaur"
-},
-        {
-            "generation_number": 1,
-            "id": 2,
-            "name": "Ivysaur"
-},
-        {
-            "generation_number": 1,
-            "id": 3,
-            "name": "Venusaur"
-},
+    let generation = {
+        "Generation 1": [
+            {
+                "generation_number": 1,
+                "id": 1,
+                "name": "Bulbasaur"
+    },
+            {
+                "generation_number": 1,
+                "id": 2,
+                "name": "Ivysaur"
+    },
+            {
+                "generation_number": 1,
+                "id": 3,
+                "name": "Venusaur"
+    },
         {
             "generation_number": 1,
             "id": 4,
