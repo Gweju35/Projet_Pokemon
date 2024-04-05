@@ -80,7 +80,8 @@ function updateButtons() {
     const totalPages = Math.ceil(rows.length / rowsPerPage);
     const prevButton = document.getElementById('prevPageButton');
     const nextButton = document.getElementById('nextPageButton');
-
+    const nb_page = document.getElementById('nb_page');
+    
     // Désactive le bouton précédent sur la première page
     if (currentPage === 1) {
         prevButton.disabled = true;
@@ -94,6 +95,8 @@ function updateButtons() {
     } else {
         nextButton.disabled = false;
     }
+
+    nb_page.textContent = currentPage + " / " + totalPages;
 }
 
 const rows = tbody.getElementsByTagName('tr');
