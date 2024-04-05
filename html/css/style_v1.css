@@ -29,3 +29,10 @@ body {
 button{
     margin: 10px;
 }
+
+.popup{
+    display: none;
+    width: 800px;
+    height: 500px;
+    background-color: red;
+}
