@@ -32,7 +32,10 @@ button{
 
 .popup{
     display: none;
-    width: 800px;
-    height: 500px;
+    position: fixed;
+    top: 100px;
+    left: 20%;
+    width: 60%;
+    height: 70%;
     background-color: red;
 }

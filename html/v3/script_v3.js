@@ -124,14 +124,14 @@ document.getElementById('nextPageButton').addEventListener('click', function() {
   
 
 
-let popup = document.getElementById('popup');
-for (let i = 0; i < rows.length; i++) {
-    rows[i].addEventListener('click', function() {
-        // ID du Pokémon 
-        let pokemonId = parseInt(this.cells[0].textContent);
-        
-        // Afficher la popup
-        popup.style.display = "block";
-        popup.textContent = "ID du Pokémon : " + pokemonId;
-    });
-}
+document.getElementById("test").addEventListener("click", function() {
+    document.getElementById("popupEvent").style.display = "block";
+});
+
+
+document.getElementById("close").addEventListener("click", function() {
+    document.getElementById("popupEvent").style.display = "none";
+});
+
+
+
