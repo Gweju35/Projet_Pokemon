@@ -121,4 +121,3 @@ document.getElementById('nextPageButton').addEventListener('click', function() {
         updateButtons();
     }
 });
-
