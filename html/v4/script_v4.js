@@ -1,7 +1,126 @@
-// Importez les données des Pokémon ici depuis votre fichier pokemons.js
+// Import des données Pokémon depuis le fichier pokemons.js
 let listePokemons = Pokemon.import_pokemon();
 let tbody = document.getElementById('tableauPokemon');
 
+// Fonction pour trouver le numéro de génération d'un Pokémon grâce à son ID
+function findGeneration(pokemonId) {
+    for (let genName in generation) {
+        let pokemonsInGen = generation[genName];
+        for (let pokemon of pokemonsInGen) {
+            if (pokemon.id === pokemonId) {
+                return pokemon.generation_number;
+            }
+        }
+    }
+    return "Génération inconnue";
+}
+
+// Fonction pour formater l'ID du Pokémon pour retrouver l'image
+function idPokemonImage(pokemon) {
+    let idNumber = pokemon.pokemon_id.toString();
+
+    if (idNumber.length < 2 && idNumber.length > 0) { 
+        idNumber = idNumber.toString().padStart(3, '00'); 
+    } else if (idNumber.length > 1 && idNumber.length < 3) { 
+        idNumber = idNumber.toString().padStart(3, '0'); 
+    } 
+
+    return idNumber;
+}
+
+// Création de la liste déroulante des générations pour les filtres
+function creation_liste_filtre() {
+    var liste_filtre = document.getElementById('filtre_gen');
+    
+    var defaultOption = document.createElement('option');
+    defaultOption.value = "";
+    defaultOption.textContent = "Génération";
+    liste_filtre.appendChild(defaultOption);
+    
+    for (let num_gen in generation) {
+        var option = document.createElement('option');
+        num = num_gen.split(" ");
+        option.value = num[1];
+        option.textContent = num_gen;
+        liste_filtre.appendChild(option);
+    }
+    
+    liste_filtre.addEventListener('change', function() {
+        filterByGenerationAndPaginate(this.value);
+    });
+}
+
+// Fonction pour filtrer les Pokémon par génération
+function filterByGeneration(generation) {
+    var rows = tbody.getElementsByTagName('tr');
+    for (let i = 0; i < rows.length; i++) {
+        var gen = rows[i].querySelector('td:nth-child(3)');
+        if (generation === "" || gen.textContent === generation) {
+            rows[i].style.display = '';
+        } else {
+            rows[i].style.display = 'none';
+        }
+    }
+}
+
+// Fonction pour afficher une page spécifique de résultats tout en appliquant le filtre de génération
+function showPage(page) {
+    const filteredRows = getFilteredRows();
+    for (let i = 0; i < filteredRows.length; i++) {
+        if (i < (page - 1) * rowsPerPage || i >= page * rowsPerPage) {
+            filteredRows[i].style.display = 'none';
+        } else {
+            filteredRows[i].style.display = '';
+        }
+    }
+}
+
+// Fonction pour obtenir les lignes filtrées en fonction de la génération sélectionnée
+function getFilteredRows() {
+    const generationFilter = document.getElementById('filtre_gen').value;
+    const rows = tbody.getElementsByTagName('tr');
+    const filteredRows = [];
+    for (let i = 0; i < rows.length; i++) {
+        const gen = rows[i].querySelector('td:nth-child(3)').textContent;
+        if (generationFilter === "" || gen === generationFilter) {
+            filteredRows.push(rows[i]);
+        }
+    }
+    return filteredRows;
+}
+
+// Fonction pour mettre à jour l'état des boutons de pagination après avoir appliqué le filtre de génération
+function updatePagination() {
+    const filteredRows = getFilteredRows();
+    const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+    const prevButton = document.getElementById('prevPageButton');
+    const nextButton = document.getElementById('nextPageButton');
+    const nb_page = document.getElementById('nb_page');
+    
+    if (currentPage === 1) {
+        prevButton.disabled = true;
+    } else {
+        prevButton.disabled = false;
+    }
+
+    if (currentPage === totalPages) {
+        nextButton.disabled = true;
+    } else {
+        nextButton.disabled = false;
+    }
+
+    nb_page.textContent = currentPage + " / " + totalPages;
+}
+
+// Fonction pour filtrer les Pokémon par génération et mettre à jour l'affichage de la pagination
+function filterByGenerationAndPaginate(generation) {
+    filterByGeneration(generation);
+    currentPage = 1; // Revenir à la première page après le filtrage
+    showPage(currentPage);
+    updatePagination();
+}
+
+// Affichage initial des Pokémon
 for (let pokemonId in listePokemons) {
     let pokemon = listePokemons[pokemonId];
     let generation = findGeneration(pokemon.pokemon_id);
@@ -36,145 +155,31 @@ for (let pokemonId in listePokemons) {
     cellImage.appendChild(img);
 }
 
-// Fonction pour trouver le generation_number d'un Pokémon grâce à son ID
-function findGeneration(pokemonId) {
-    for (let genName in generation) {
-        let pokemonsInGen = generation[genName];
-        for (let pokemon of pokemonsInGen) {
-            if (pokemon.id === pokemonId) {
-                return pokemon.generation_number;
-            }
-        }
-    }
-    return "Génération inconnue";
-}
-
-// Fonction pour formater l'ID du Pokémon pour retrouver l'image
-function idPokemonImage(pokemon) {
-    let idNumber = pokemon.pokemon_id.toString();
-
-    if (idNumber.length < 2 && idNumber.length > 0) { // Si l'ID a 1 seul chiffre on lui rajoute '00' devant
-        idNumber = idNumber.toString().padStart(3, '00'); // 3 devient 003
-    }
-
-    else if (idNumber.length > 1 && idNumber.length < 3) { // Si l'ID a 2 chiffres on lui rajoute '0' devant
-        idNumber = idNumber.toString().padStart(3, '0'); // 11 devient 011
-    } 
-
-    return idNumber;
-}
-
-// Définition de la fonction showPage
-function showPage(page) {
-    for (let i = 0; i < rows.length; i++) {
-        if (i < (page - 1) * rowsPerPage || i >= page * rowsPerPage) {
-            rows[i].style.display = 'none';
-        } else {
-            rows[i].style.display = '';
-        }
-    }
-}
-
-// les boutons
-function updateButtons() {
-    const totalPages = Math.ceil(rows.length / rowsPerPage);
-    const prevButton = document.getElementById('prevPageButton');
-    const nextButton = document.getElementById('nextPageButton');
-    const nb_page = document.getElementById('nb_page');
-    
-    // Désactive le bouton précédent sur la première page
-    if (currentPage === 1) {
-        prevButton.disabled = true;
-    } else {
-        prevButton.disabled = false;
-    }
-
-    // Désactive le bouton suivant sur la dernière page
-    if (currentPage === totalPages) {
-        nextButton.disabled = true;
-    } else {
-        nextButton.disabled = false;
-    }
-
-    nb_page.textContent = currentPage + " / " + totalPages;
-}
+// Gestion de la pagination
 
 const rows = tbody.getElementsByTagName('tr');
 const rowsPerPage = 25;
 let currentPage = 1;
 
+// Initialisation des filtres et de la pagination
+creation_liste_filtre();
 showPage(currentPage);
-updateButtons();
+updatePagination();
 
-// page précédente
+// Ajout des écouteurs d'événements pour les boutons de pagination
 document.getElementById('prevPageButton').addEventListener('click', function() {
     if (currentPage > 1) {
         currentPage--;
         showPage(currentPage);
-        updateButtons();
+        updatePagination();
     }
 });
 
-// page suivante
 document.getElementById('nextPageButton').addEventListener('click', function() {
-    const totalPages = Math.ceil(rows.length / rowsPerPage);
+    const totalPages = Math.ceil(getFilteredRows().length / rowsPerPage);
     if (currentPage < totalPages) {
         currentPage++;
         showPage(currentPage);
-        updateButtons();
+        updatePagination();
     }
 });
-  
-
-
-document.getElementById("test").addEventListener("click", function() {
-    document.getElementById("popupEvent").style.display = "block";
-});
-
-
-document.getElementById("close").addEventListener("click", function() {
-    document.getElementById("popupEvent").style.display = "none";
-});
-
-/* LES FILTRES */
-// Fonction pour créer la liste déroulante des générations
-function creation_liste_filtre() {
-    var liste_filtre = document.getElementById('filtre_gen');
-    
-    // Ajoutez une option vide pour ne pas utiliser le filtre
-    var defaultOption = document.createElement('option');
-    defaultOption.value = "";
-    defaultOption.textContent = "Génération";
-    liste_filtre.appendChild(defaultOption);
-    
-    // Récupérez les générations à partir des données
-    for (let num_gen in generation) {
-        var option = document.createElement('option');
-        num = num_gen.split(" ");
-        option.value = num[1];
-        option.textContent = num_gen;
-        liste_filtre.appendChild(option);
-    }
-    
-    // Ajoutez un gestionnaire d'événements pour filtrer les Pokémon
-    liste_filtre.addEventListener('change', function() {
-        filterByGeneration(this.value);
-    });
-}
-
-// Fonction pour filtrer les Pokémon par génération
-function filterByGeneration(generation) {
-    var rows = tbody.getElementsByTagName('tr');
-    for (let i = 0; i < rows.length; i++) {
-        var gen = rows[i].querySelector('td:nth-child(3)');
-        console.log(gen);
-        if (generation === "" || gen.textContent === generation) {
-            rows[i].style.display = '';
-        } else {
-            rows[i].style.display = 'none';
-        }
-    }
-}
-
-// Création de la liste des GEN
-creation_liste_filtre();
