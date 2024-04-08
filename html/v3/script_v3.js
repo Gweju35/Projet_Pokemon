@@ -1,10 +1,12 @@
 // Importez les données des Pokémon ici depuis votre fichier pokemons.js
 let listePokemons = Pokemon.import_pokemon();
+console.log(listePokemons);
 let tbody = document.getElementById('tableauPokemon');
+let generationData = Pokemon.importGeneration();
 
 for (let pokemonId in listePokemons) {
     let pokemon = listePokemons[pokemonId];
-    let generation = findGeneration(pokemon.pokemon_id);
+    let generation = findGeneration(pokemon.pokemon_id, generationData);
 
     let row = tbody.insertRow();
     let cellID = row.insertCell(0);
@@ -34,12 +36,16 @@ for (let pokemonId in listePokemons) {
     img.src = `../webp/images/${idFormat}.webp`;
     img.alt = pokemon.pokemon_name;
     cellImage.appendChild(img);
+
+    pokemon.generation = generation;
+    row.setAttribute('data-pokemon', JSON.stringify(pokemon));
+
 }
 
 // Fonction pour trouver le generation_number d'un Pokémon grâce à son ID
-function findGeneration(pokemonId) {
-    for (let genName in generation) {
-        let pokemonsInGen = generation[genName];
+function findGeneration(pokemonId, generationData) {
+    for (let genName in generationData) {
+        let pokemonsInGen = generationData[genName];
         for (let pokemon of pokemonsInGen) {
             if (pokemon.id === pokemonId) {
                 return pokemon.generation_number;
@@ -48,6 +54,8 @@ function findGeneration(pokemonId) {
     }
     return "Génération inconnue";
 }
+
+
 
 // Fonction pour formater l'ID du Pokémon pour retrouver l'image
 function idPokemonImage(pokemon) {
@@ -126,15 +134,62 @@ document.getElementById('nextPageButton').addEventListener('click', function() {
 });
   
 
+/*--------- Informations Pokémons Popup ----------*/
 
-document.getElementById("test").addEventListener("click", function() {
-    document.getElementById("popupEvent").style.display = "block";
+document.addEventListener('DOMContentLoaded', function() {
+    let tbody = document.getElementById('tableauPokemon');
+    let popup = document.getElementById('popupEvent');
+    // Ajoutez un événement de clic à chaque ligne du tableau
+    tbody.addEventListener('click', function(event) {
+        let target = event.target;
+        // Vérifiez si la cible du clic est une ligne du tableau
+        if (target.tagName === 'TD') {
+            // Récupérez les informations du Pokémon à partir de la ligne parente (tr)
+            let pokemonData = JSON.parse(target.parentNode.getAttribute('data-pokemon'));
+            // Affichez les informations du Pokémon dans la popup
+            displayPopup(popup, pokemonData);
+        }
+    });
 });
 
 
-document.getElementById("close").addEventListener("click", function() {
-    document.getElementById("popupEvent").style.display = "none";
-});
+// Fonction pour afficher les informations du Pokémon dans la popup
+function displayPopup(popup, pokemonData) {
+    // Stocker le contenu du bouton de fermeture dans une variable séparée
+    let closeButton = `<div id="close"><p>×</p></div>`;
 
+    // Vider le contenu précédent de la popup
+    popup.innerHTML = '';
 
+    // Générer le contenu des attaques chargées avec les types
+    let chargedMoves = pokemonData.attacks.charged_moves.map(move => `${move.name} (${move.type})`).join(', ');
 
+    // Générer le contenu des attaques rapides avec les types
+    let fastMoves = pokemonData.attacks.fast_moves.map(move => `${move.name} (${move.type})`).join(', ');
+
+    // Générer le nouveau contenu de la popup
+    let popupContent = `
+        ${closeButton}
+        <p>ID: ${pokemonData.pokemon_id}</p>
+        <p>Nom: ${pokemonData.pokemon_name}</p>
+        <p>GEN: ${pokemonData.generation}</p>
+        <p>Types: ${pokemonData.types.join(', ')}</p>
+        <p>Stamina: ${pokemonData.base_stamina}</p>
+        <p>Attack: ${pokemonData.base_attack}</p>
+        <p>Defense: ${pokemonData.base_defense}</p>
+        <p>Charged Moves: ${chargedMoves}</p>
+        <p>Fast Moves: ${fastMoves}</p>
+    `;
+    
+    // Ajouter le nouveau contenu à la popup
+    popup.innerHTML = popupContent;
+
+    // Ajouter l'écouteur d'événements pour fermer la popup
+    let closePopup = document.getElementById('close');
+    closePopup.addEventListener('click', function() {
+        popup.style.display = 'none';
+    });
+
+    // Afficher la popup
+    popup.style.display = 'block';
+}

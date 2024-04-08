@@ -52,25 +52,40 @@ class Pokemon {
                 if (pokemonMoves) {
                     // Partie fast attaques
                     pokemonMoves.fast_moves.forEach(fastMoveName => {
-                        let attack = new Attack({
-                            name: fastMoveName,
-                            type: "Fast"
-                        });
+                        let fastMove = fast_moves.find(move => move.name === fastMoveName);
+                        if (fastMove && fastMove.type) {
+                            let attack = new Attack({
+                                name: fastMoveName,
+                                type: fastMove.type,
+                                move_id: fastMove.move_id,
+                                duration: fastMove.duration,
+                                energy_delta: fastMove.energy_delta,
+                                power: fastMove.power,
+                                stamina_loss_scaler: fastMove.stamina_loss_scaler
+                            });
                         if (!(fastMoveName in all_attacks)) {
                             all_attacks[fastMoveName] = attack;
                         }
-                        pokemonObj.attacks.fast_moves.push(all_attacks[fastMoveName]);
+                        pokemonObj.attacks.fast_moves.push(all_attacks[fastMoveName]);}
                     });
                     // Partie charged attaques
                     pokemonMoves.charged_moves.forEach(chargedMoveName => {
+                        let chargedMove = charged_moves.find(move => move.name === chargedMoveName);
+                        if (chargedMove && chargedMove.type) {
                         let attack = new Attack({
                             name: chargedMoveName,
-                            type: "Charged"
+                            type: charged_moves.find(move => move.name === chargedMoveName).type,
+                            move_id: charged_moves.find(move => move.name === chargedMoveName).move_id,
+                            critical_chance: charged_moves.find(move => move.name === chargedMoveName).critical_chance,
+                            duration: charged_moves.find(move => move.name === chargedMoveName).duration,
+                            energy_delta: charged_moves.find(move => move.name === chargedMoveName).energy_delta,
+                            power: charged_moves.find(move => move.name === chargedMoveName).power,
+                            stamina_loss_scaler: charged_moves.find(move => move.name === chargedMoveName).stamina_loss_scaler
                         });
                         if (!(chargedMoveName in all_attacks)) {
                             all_attacks[chargedMoveName] = attack;
                         }
-                        pokemonObj.attacks.charged_moves.push(all_attacks[chargedMoveName]);
+                        pokemonObj.attacks.charged_moves.push(all_attacks[chargedMoveName]);}
                     });
                 }
                 all_pokemons[pokemonData.pokemon_id] = pokemonObj;
@@ -84,6 +99,10 @@ class Pokemon {
     // ** Sert pour la méthode testGetWeakestEnemies() et testGetBestAttackTypesForEnemy()
     static importEffectiveness() {
         return type_effectiveness;
+    }
+
+    static importGeneration() {
+        return generation;
     }
 
 
