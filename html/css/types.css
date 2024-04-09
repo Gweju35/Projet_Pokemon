@@ -1,0 +1,110 @@
+:root {
+    --bug: #91A119;
+    --dark: #624D4E;
+    --dragon: #5060E1;
+    --electric: #FAC000;
+    --fairy: #EF70EF;
+    --fighting: #FF8000;
+    --fire: #E62829;
+    --flying: #81B9EF;
+    --ghost: #704170;
+    --grass: #3FA129;
+    --ground: #915121;
+    --ice: #3DCEF3;
+    --normal: #9FA19F;
+    --poison: #9141CB;
+    --psychic: #EF4179;
+    --rock: #AFA981;
+    --steel: #60A1B8;
+    --water: #2980EF;
+}
+
+.bug {
+    background-color: var(--bug);
+    color: white;
+}
+
+.dark {
+    background-color: var(--dark);
+    color: white;
+}
+
+.dragon {
+    background-color: var(--dragon);
+    color: white;
+}
+
+.electric {
+    background-color: var(--electric);
+    color: white;
+}
+
+.fairy {
+    background-color: var(--fairy);
+    color: white;
+}
+
+.fighting {
+    background-color: var(--fighting);
+    color: white;
+}
+
+.fire {
+    background-color: var(--fire);
+    color: white;
+}
+
+.flying {
+    background-color: var(--flying);
+    color: white;
+}
+
+.ghost {
+    background-color: var(--ghost);
+    color: white;
+}
+
+.grass {
+    background-color: var(--grass);
+    color: white;
+}
+
+.ground {
+    background-color: var(--ground);
+    color: white;
+}
+
+.ice {
+    background-color: var(--ice);
+    color: white;
+}
+
+.normal {
+    background-color: var(--normal);
+    color: white;
+}
+
+.poison {
+    background-color: var(--poison);
+    color: white;
+}
+
+.psychic {
+    background-color: var(--psychic);
+    color: white;
+}
+
+.rock {
+    background-color: var(--rock);
+    color: white;
+}
+
+.steel {
+    background-color: var(--steel);
+    color: white;
+}
+
+.water {
+    background-color: var(--water);
+    color: white;
+}

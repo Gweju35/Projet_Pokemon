@@ -67,7 +67,7 @@ function idPokemonImage(pokemon) {
 
     else if (idNumber.length > 1 && idNumber.length < 3) { // Si l'ID a 2 chiffres on lui rajoute '0' devant
         idNumber = idNumber.toString().padStart(3, '0'); // 11 devient 011
-    } 
+    }
 
     return idNumber;
 }
@@ -89,7 +89,7 @@ function updateButtons() {
     const prevButton = document.getElementById('prevPageButton');
     const nextButton = document.getElementById('nextPageButton');
     const nb_page = document.getElementById('nb_page');
-    
+
     // Désactive le bouton précédent sur la première page
     if (currentPage === 1) {
         prevButton.disabled = true;
@@ -115,7 +115,7 @@ showPage(currentPage);
 updateButtons();
 
 // page précédente
-document.getElementById('prevPageButton').addEventListener('click', function() {
+document.getElementById('prevPageButton').addEventListener('click', function () {
     if (currentPage > 1) {
         currentPage--;
         showPage(currentPage);
@@ -124,7 +124,7 @@ document.getElementById('prevPageButton').addEventListener('click', function() {
 });
 
 // page suivante
-document.getElementById('nextPageButton').addEventListener('click', function() {
+document.getElementById('nextPageButton').addEventListener('click', function () {
     const totalPages = Math.ceil(rows.length / rowsPerPage);
     if (currentPage < totalPages) {
         currentPage++;
@@ -132,15 +132,15 @@ document.getElementById('nextPageButton').addEventListener('click', function() {
         updateButtons();
     }
 });
-  
+
 
 /*--------- Informations Pokémons Popup ----------*/
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     let tbody = document.getElementById('tableauPokemon');
     let popup = document.getElementById('popupEvent');
     // Ajoutez un événement de clic à chaque ligne du tableau
-    tbody.addEventListener('click', function(event) {
+    tbody.addEventListener('click', function (event) {
         let target = event.target;
         // Vérifiez si la cible du clic est une ligne du tableau
         if (target.tagName === 'TD') {
@@ -155,9 +155,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Fonction pour afficher les informations du Pokémon dans la popup
 function displayPopup(popup, pokemonData) {
-    // Stocker le contenu du bouton de fermeture dans une variable séparée
-    let closeButton = `<div id="close"><p>×</p></div>`;
-
     // Vider le contenu précédent de la popup
     popup.innerHTML = '';
 
@@ -167,29 +164,101 @@ function displayPopup(popup, pokemonData) {
     // Générer le contenu des attaques rapides avec les types
     let fastMoves = pokemonData.attacks.fast_moves.map(move => `${move.name} (${move.type})`).join(', ');
 
+    let typesContent = pokemonData.types.map(type => {
+        // Obtenez la classe de couleur correspondant au type
+        let colorClass = getTypeColorClass(type);
+        // Retourne un div avec le type et la classe de couleur
+        return `<div class="type ${colorClass}">
+                    <img src="../icons/${type}.svg" alt="${type}">        
+                    <p>${type}</p>
+                </div>`;
+    }).join('');
+
+
     // Générer le nouveau contenu de la popup
     let popupContent = `
-        ${closeButton}
-        <p>ID: ${pokemonData.pokemon_id}</p>
-        <p>Nom: ${pokemonData.pokemon_name}</p>
-        <p>GEN: ${pokemonData.generation}</p>
-        <p>Types: ${pokemonData.types.join(', ')}</p>
-        <p>Stamina: ${pokemonData.base_stamina}</p>
-        <p>Attack: ${pokemonData.base_attack}</p>
-        <p>Defense: ${pokemonData.base_defense}</p>
-        <p>Charged Moves: ${chargedMoves}</p>
-        <p>Fast Moves: ${fastMoves}</p>
+        <div id="close"><p>×</p></div>
+        <div class="container">
+            <div class="bio">
+                <div class="image">
+                    <img src="../webp/images/${idPokemonImage(pokemonData)}.webp" alt="${pokemonData.pokemon_name}"></img>
+                    <p>${pokemonData.pokemon_name}</p>
+                </div>
+                <div class="infos">
+                    <div class="id">
+                        <p>ID: ${pokemonData.pokemon_id}</p>
+                        <p>Generation: ${pokemonData.generation}</p>
+                    </div>
+                    <div class="types">
+                        ${typesContent}
+                    </div>
+                    <div class="stats">
+                        <p>Stamina: ${pokemonData.base_stamina}</p>
+                        <p>Attack: ${pokemonData.base_attack}</p>
+                        <p>Defense: ${pokemonData.base_defense}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="attacks">
+                <p>Charged Moves: ${chargedMoves}</p>
+                <p>Fast Moves: ${fastMoves}</p>
+            </div>
+        </div>
     `;
-    
+
     // Ajouter le nouveau contenu à la popup
     popup.innerHTML = popupContent;
 
     // Ajouter l'écouteur d'événements pour fermer la popup
     let closePopup = document.getElementById('close');
-    closePopup.addEventListener('click', function() {
+    closePopup.addEventListener('click', function () {
         popup.style.display = 'none';
     });
 
     // Afficher la popup
     popup.style.display = 'block';
+}
+
+
+function getTypeColorClass(type) {
+    switch (type.toLowerCase()) {
+        case 'bug':
+            return 'bug';
+        case 'dark':
+            return 'dark';
+        case 'dragon':
+            return 'dragon';
+        case 'electric':
+            return 'electric';
+        case 'fairy':
+            return 'fairy';
+        case 'fighting':
+            return 'fighting';
+        case 'fire':
+            return 'fire';
+        case 'flying':
+            return 'flying';
+        case 'ghost':
+            return 'ghost';
+        case 'grass':
+            return 'grass';
+        case 'ground':
+            return 'ground';
+        case 'ice':
+            return 'ice';
+        case 'normal':
+            return 'normal';
+        case 'poison':
+            return 'poison';
+        case 'psychic':
+            return 'psychic';
+        case 'rock':
+            return 'rock';
+        case 'steel':
+            return 'steel';
+        case 'water':
+            return 'water';
+        default:
+            return '';
+    }
 }
