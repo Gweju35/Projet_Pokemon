@@ -89,7 +89,8 @@ function filterByGenerationAndType(generation, type) {
             rows[i].style.display = 'none';
         }
     }
-    showPage();
+    currentPage = 1;
+    showPage(currentPage);
     updatePagination();
     
 }
