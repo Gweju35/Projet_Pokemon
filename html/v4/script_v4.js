@@ -30,40 +30,71 @@ function idPokemonImage(pokemon) {
 
 // Création de la liste déroulante des générations pour les filtres
 function creation_liste_filtre() {
-    var liste_filtre = document.getElementById('filtre_gen');
+    var liste_filtre_gen = document.getElementById('filtre_gen');
     
-    var defaultOption = document.createElement('option');
-    defaultOption.value = "";
-    defaultOption.textContent = "Génération";
-    liste_filtre.appendChild(defaultOption);
+    var defaultOptionGen = document.createElement('option');
+    defaultOptionGen.value = "";
+    defaultOptionGen.textContent = "Génération";
+    liste_filtre_gen.appendChild(defaultOptionGen);
     
     for (let num_gen in generation) {
-        var option = document.createElement('option');
+        var optionGen = document.createElement('option');
         num = num_gen.split(" ");
-        option.value = num[1];
-        option.textContent = num_gen;
-        liste_filtre.appendChild(option);
+        optionGen.value = num[1];
+        optionGen.textContent = num_gen;
+        liste_filtre_gen.appendChild(optionGen);
     }
-    
-    liste_filtre.addEventListener('change', function() {
-        filterByGenerationAndPaginate(this.value);
+
+    liste_filtre_gen.addEventListener('change', function() {
+        filterByGenerationAndType(this.value, liste_filtre_gen.value);
     });
 }
 
-// Fonction pour filtrer les Pokémon par génération
-function filterByGeneration(generation) {
+function creation_liste_type() {
+    var liste_filtre_type = document.getElementById('filtre_type');
+    var typesUniques = new Set(); // pour récuperer les valeurs en unique
+
+    var defaultOptionType = document.createElement('option');
+    defaultOptionType.value = "";
+    defaultOptionType.textContent = "Type";
+    liste_filtre_type.appendChild(defaultOptionType);
+
+    for (let type of Pokemon.getTypes()) {
+        var un_type = type.types;
+        // vérifie si il est unique 
+        if (!typesUniques.has(un_type)) {
+            var optionType = document.createElement('option');
+            optionType.value = un_type;
+            optionType.textContent = un_type;
+            liste_filtre_type.appendChild(optionType);
+            typesUniques.add(un_type);
+        }
+    }
+
+    liste_filtre_type.addEventListener('change', function() {
+        filterByGenerationAndType(liste_filtre_type.value, this.value);
+    });
+}
+
+// Fonction pour filtrer les Pokémon par génération et/ou par type
+function filterByGenerationAndType(generation, type) {
     var rows = tbody.getElementsByTagName('tr');
     for (let i = 0; i < rows.length; i++) {
-        var gen = rows[i].querySelector('td:nth-child(3)');
-        if (generation === "" || gen.textContent === generation) {
+        var gen = rows[i].querySelector('td:nth-child(3)').textContent;
+        var types = rows[i].querySelector('td:nth-child(4)').textContent.split(', ');
+        if ((generation === "" || gen === generation) && (type === "" || types.includes(type))) {
             rows[i].style.display = '';
+            console.log(types);
         } else {
             rows[i].style.display = 'none';
         }
     }
+    showPage();
+    updatePagination();
+    
 }
 
-// Fonction pour afficher une page spécifique de résultats tout en appliquant le filtre de génération
+// Fonction pour afficher une page spécifique de résultats
 function showPage(page) {
     const filteredRows = getFilteredRows();
     for (let i = 0; i < filteredRows.length; i++) {
@@ -75,23 +106,26 @@ function showPage(page) {
     }
 }
 
-// Fonction pour obtenir les lignes filtrées en fonction de la génération sélectionnée
+// Fonction pour obtenir les lignes filtrées en fonction de la génération et du type sélectionnés
 function getFilteredRows() {
     const generationFilter = document.getElementById('filtre_gen').value;
+    const typeFilter = document.getElementById('filtre_type').value;
     const rows = tbody.getElementsByTagName('tr');
     const filteredRows = [];
     for (let i = 0; i < rows.length; i++) {
         const gen = rows[i].querySelector('td:nth-child(3)').textContent;
-        if (generationFilter === "" || gen === generationFilter) {
+        const types = rows[i].querySelector('td:nth-child(4)').textContent.split(', ');
+        if ((generationFilter === "" || gen === generationFilter) && (typeFilter === "" || types.includes(typeFilter))) {
             filteredRows.push(rows[i]);
         }
     }
     return filteredRows;
 }
 
-// Fonction pour mettre à jour l'état des boutons de pagination après avoir appliqué le filtre de génération
+// Fonction pour mettre à jour l'état des boutons de pagination
 function updatePagination() {
     const filteredRows = getFilteredRows();
+    console.log(filteredRows);
     const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
     const prevButton = document.getElementById('prevPageButton');
     const nextButton = document.getElementById('nextPageButton');
@@ -110,14 +144,6 @@ function updatePagination() {
     }
 
     nb_page.textContent = currentPage + " / " + totalPages;
-}
-
-// Fonction pour filtrer les Pokémon par génération et mettre à jour l'affichage de la pagination
-function filterByGenerationAndPaginate(generation) {
-    filterByGeneration(generation);
-    currentPage = 1; // Revenir à la première page après le filtrage
-    showPage(currentPage);
-    updatePagination();
 }
 
 // Affichage initial des Pokémon
@@ -157,12 +183,12 @@ for (let pokemonId in listePokemons) {
 
 // Gestion de la pagination
 
-const rows = tbody.getElementsByTagName('tr');
 const rowsPerPage = 25;
 let currentPage = 1;
 
 // Initialisation des filtres et de la pagination
 creation_liste_filtre();
+creation_liste_type();
 showPage(currentPage);
 updatePagination();
 
