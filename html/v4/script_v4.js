@@ -45,14 +45,12 @@ function creation_liste_filtre() {
         liste_filtre_gen.appendChild(optionGen);
     }
 
-    liste_filtre_gen.addEventListener('change', function() {
-        filterByGenerationAndType(this.value, liste_filtre_gen.value);
-    });
+    liste_filtre_gen.addEventListener('change', filterPokemons);
 }
 
 function creation_liste_type() {
     var liste_filtre_type = document.getElementById('filtre_type');
-    var typesUniques = new Set(); // pour récuperer les valeurs en unique
+    var typesUniques = new Set(); // pour récupérer les valeurs en unique
 
     var defaultOptionType = document.createElement('option');
     defaultOptionType.value = "";
@@ -71,32 +69,64 @@ function creation_liste_type() {
         }
     }
 
-    liste_filtre_type.addEventListener('change', function() {
-        filterByGenerationAndType(liste_filtre_type.value, this.value);
-    });
+    liste_filtre_type.addEventListener('change', filterPokemons);
 }
 
-// Fonction pour filtrer les Pokémon par génération et/ou par type
-function filterByGenerationAndType(generation, type) {
-    var rows = tbody.getElementsByTagName('tr');
+// Fonction pour filtrer les Pokémon par génération, type et/ou nom
+function filterPokemons() {
+    const generationFilter = document.getElementById('filtre_gen').value;
+    const typeFilter = document.getElementById('filtre_type').value;
+    const nameFilter = document.getElementById('filtre_nom').value.toLowerCase();
+
+    const rows = tbody.getElementsByTagName('tr');
+
     for (let i = 0; i < rows.length; i++) {
-        var gen = rows[i].querySelector('td:nth-child(3)').textContent;
-        var types = rows[i].querySelector('td:nth-child(4)').textContent.split(', ');
-        if ((generation === "" || gen === generation) && (type === "" || types.includes(type))) {
+        const gen = rows[i].querySelector('td:nth-child(3)').textContent;
+        const types = rows[i].querySelector('td:nth-child(4)').textContent.split(', ');
+        const name = rows[i].querySelector('td:nth-child(2)').textContent.toLowerCase();
+
+        const generationMatch = generationFilter === "" || gen === generationFilter;
+        const typeMatch = typeFilter === "" || types.includes(typeFilter);
+        const nameMatch = nameFilter === "" || name.includes(nameFilter);
+
+        if (generationMatch && typeMatch && nameMatch) {
             rows[i].style.display = '';
-            console.log(types);
         } else {
             rows[i].style.display = 'none';
         }
     }
-    currentPage = 1;
-    showPage(currentPage);
+
+    currentPage = 1; 
+    showPage(currentPage); 
+    updatePagination(); 
+}
+
+// Ajout d'événements pour les filtres
+document.getElementById('filtre_gen').addEventListener('change', filterPokemons);
+document.getElementById('filtre_type').addEventListener('change', filterPokemons);
+
+// Ajout d'un événement d'entrée pour le champ de texte de nom
+document.getElementById('filtre_nom').addEventListener('input', filterPokemons);
+
+// Fonction pour filtrer les Pokémon par génération et/ou par type
+function filterByGenerationAndType(generation, type) {
+    const rows = tbody.getElementsByTagName('tr');
+    for (let i = 0; i < rows.length; i++) {
+        const gen = rows[i].querySelector('td:nth-child(3)').textContent;
+        const types = rows[i].querySelector('td:nth-child(4)').textContent.split(', ');
+        if ((generation === "" || gen === generation) && (type === "" || types.includes(type))) {
+            rows[i].style.display = '';
+        } else {
+            rows[i].style.display = 'none';
+        }
+    }
+    showPage();
     updatePagination();
-    
 }
 
 // Fonction pour afficher une page spécifique de résultats
 function showPage(page) {
+    const rowsPerPage = 25;
     const filteredRows = getFilteredRows();
     for (let i = 0; i < filteredRows.length; i++) {
         if (i < (page - 1) * rowsPerPage || i >= page * rowsPerPage) {
@@ -126,7 +156,6 @@ function getFilteredRows() {
 // Fonction pour mettre à jour l'état des boutons de pagination
 function updatePagination() {
     const filteredRows = getFilteredRows();
-    console.log(filteredRows);
     const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
     const prevButton = document.getElementById('prevPageButton');
     const nextButton = document.getElementById('nextPageButton');
@@ -183,7 +212,6 @@ for (let pokemonId in listePokemons) {
 }
 
 // Gestion de la pagination
-
 const rowsPerPage = 25;
 let currentPage = 1;
 
