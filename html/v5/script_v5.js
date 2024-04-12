@@ -28,6 +28,48 @@ function idPokemonImage(pokemon) {
     return idNumber;
 }
 
+// Fonction pour trier les Pokémon par colonne
+function sortPokemons(column) {
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    const isAscending = column.dataset.sort === 'asc';
+
+    // Tri des lignes en fonction de la valeur de la colonne
+    rows.sort((rowA, rowB) => {
+        let valueA = rowA.querySelector(`td:nth-child(${column.cellIndex + 1})`).textContent;
+        let valueB = rowB.querySelector(`td:nth-child(${column.cellIndex + 1})`).textContent;
+
+        // Tri numérique pour les colonnes numériques
+        if (!isNaN(valueA) && !isNaN(valueB)) {
+            return isAscending ? valueA - valueB : valueB - valueA;
+        }
+
+        // Tri alphabétique pour les colonnes de texte
+        return isAscending ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+    });
+
+    // Inversion du sens du tri pour la prochaine fois
+    column.dataset.sort = isAscending ? 'desc' : 'asc';
+
+    // Suppression des anciennes lignes
+    rows.forEach(row => tbody.removeChild(row));
+
+    // Ajout des lignes triées
+    rows.forEach(row => tbody.appendChild(row));
+}
+
+// Ajout d'événements de clic pour le tri des colonnes
+document.querySelectorAll('th').forEach(header => {
+    if (header.id !== 'urlHeader') { // Exclure l'en-tête de l'image
+        header.addEventListener('click', () => {
+            sortPokemons(header);
+            // Retirer la classe de surbrillance de toutes les cellules d'en-tête
+            document.querySelectorAll('th').forEach(th => th.classList.remove('highlight'));
+            // Ajouter la classe de surbrillance à la cellule de l'en-tête de colonne cliquée
+            header.classList.add('highlight');
+        });
+    }
+});
+
 // Création de la liste déroulante des générations pour les filtres
 function creation_liste_filtre() {
     var liste_filtre_gen = document.getElementById('filtre_gen');
@@ -87,7 +129,6 @@ function filterPokemons() {
         const generationMatch = generationFilter === "" || gen === generationFilter;
         const typeMatch = typeFilter === "" || types.includes(typeFilter);
         const nameMatch = nameFilter === "" || name.toLowerCase().indexOf(nameFilter) !== -1;
-        console.log("Nom pokemon : " , nameMatch);
 
         if (generationMatch && typeMatch && nameMatch) {
                 rows[i].style.display = '';
@@ -100,14 +141,6 @@ function filterPokemons() {
     showPage(currentPage); 
     updatePagination(); 
 }
-
-
-// Ajout d'événements pour les filtres
-document.getElementById('filtre_gen').addEventListener('change', filterPokemons);
-document.getElementById('filtre_type').addEventListener('change', filterPokemons);
-
-// Ajout d'un événement d'entrée pour le champ de texte de nom
-document.getElementById('filtre_nom').addEventListener('input', filterPokemons);
 
 // Fonction pour filtrer les Pokémon par génération et/ou par type
 function filterByGenerationAndType(generation, type) {

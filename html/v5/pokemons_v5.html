@@ -15,7 +15,7 @@
     <script src="../data/class_type.js" defer></script>
     <script src="../data/class_attack.js" defer></script>
     <script src="../data/generation.js" defer></script>
-    <script src="./script_v4.js" defer></script>
+    <script src="./script_v5.js" defer></script>
 
     <link rel="stylesheet" href="../css/style_v1.css">
 </head>
@@ -34,13 +34,13 @@
     <table>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>NOM</th>
-                <th>GEN</th>
-                <th>TYPES</th>
-                <th>STAMINA</th>
-                <th>ATTACK</th>
-                <th>DEFENSE</th>
+                <th id="idHeader">ID</th>
+                <th id="nomHeader">NOM</th>
+                <th id="genHeader">GEN</th>
+                <th id="typesHeader">TYPES</th>
+                <th id="staminaHeader">STAMINA</th>
+                <th id="attackHeader">ATTACK</th>
+                <th id="defenseHeader">DEFENSE</th>
                 <th>URL</th>
             </tr>
         </thead>
@@ -51,13 +51,7 @@
         <button id="prevPageButton">Page précédente</button>
         <button id="nextPageButton">Page suivante</button>
     </div>
-<!--
-    <button id="test">Popup</button>
 
-    <div class="popup" id="popupEvent">
-        <p id="close">X</p>
-    </div>
--->
     <p id="nb_page"></p>
 </body>
 
