@@ -19,6 +19,7 @@
     --water: #2980EF;
 }
 
+/* Couleur des types */
 .bug {
     background-color: var(--bug);
     color: white;
@@ -108,3 +109,151 @@
     background-color: var(--water);
     color: white;
 }
+
+/* Background du close et des boutons d'attaques de la popup */
+.activegrass {
+    background-color: var(--grass);
+}
+
+.activefire {
+    background-color: var(--fire);
+}
+
+.activefighting {
+    background-color: var(--fighting);
+}
+
+.activeflying {
+    background-color: var(--flying);
+}
+
+.activepoison {
+    background-color: var(--poison);
+}
+
+.activeground {
+    background-color: var(--ground);
+}
+
+.activebug {
+    background-color: var(--bug);
+}
+
+.activenormal {
+    background-color: var(--normal);
+}
+
+.activeelectric {
+    background-color: var(--electric);
+}
+
+.activefairy {
+    background-color: var(--fairy);
+}
+
+.activesteel {
+    background-color: var(--steel);
+}
+
+.activeice {
+    background-color: var(--ice);
+}
+
+.activeghost {
+    background-color: var(--ghost);
+}
+
+.activedragon {
+    background-color: var(--dragon);
+}
+
+.activepsychic {
+    background-color: var(--psychic);
+}
+
+.activerock {
+    background-color: var(--rock);
+}
+
+.activewater {
+    background-color: var(--water);
+}
+
+.activedark {
+    background-color: var(--dark);
+}
+
+
+/* Couleur de la bordure de la popup */
+.bordergrass {
+    border: 2px solid var(--grass);
+}
+
+.borderfire {
+    border: 2px solid var(--fire);
+}
+
+.borderfighting {
+    border: 2px solid var(--fighting);
+}
+
+.borderflying {
+    border: 2px solid var(--flying);
+}
+
+.borderpoison {
+    border: 2px solid var(--poison);
+}
+
+.borderground {
+    border: 2px solid var(--ground);
+}
+
+.borderbug {
+    border: 2px solid var(--bug);
+}
+
+.bordernormal {
+    border: 2px solid var(--normal);
+}
+
+.borderelectric {
+    border: 2px solid var(--electric);
+}
+
+.borderfairy {
+    border: 2px solid var(--fairy);
+}
+
+.bordersteel {
+    border: 2px solid var(--steel);
+}
+
+.borderice {
+    border: 2px solid var(--ice);
+}
+
+.borderghost {
+    border: 2px solid var(--ghost);
+}
+
+.borderdragon {
+    border: 2px solid var(--dragon);
+}
+
+.borderpsychic {
+    border: 2px solid var(--psychic);
+}
+
+.borderrock {
+    border: 2px solid var(--rock);
+}
+
+.borderwater {
+    border: 2px solid var(--water);
+}
+
+.borderdark {
+    border: 2px solid var(--dark);
+}
+

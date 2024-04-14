@@ -159,7 +159,7 @@ function displayPopup(popup, pokemonData) {
     let fastMovesContent = pokemonData.attacks.fast_moves.map(move => `<li>${move.name} (${move.type})</li>`).join('');
 
     let typesContent = pokemonData.types.map(type => {
-        // on obtinet la classe de couleur correspondant au type
+        // on obtient la classe de couleur correspondant au type
         let colorClass = getTypeColorClass(type);
         return `<div class="type ${colorClass}">
                     <img src="../icons/${type}.svg" alt="${type}">        
@@ -167,13 +167,25 @@ function displayPopup(popup, pokemonData) {
                 </div>`;
     }).join('');
 
+    let premierType = pokemonData.types[0].toLowerCase();
+    let classePremierType = `active${premierType}`;
+
+    let popupEvent = document.getElementById('popupEvent');
+    let classePremierTypeBorder = `border${premierType}`;
+    popupEvent.classList.forEach(className => {
+        if (className.startsWith('border') || className === 'popup') {
+            popupEvent.classList.remove(className);
+        }
+    });
+    popupEvent.classList.add('popup', classePremierTypeBorder);
+
 
     // on génère le nouveau contenu de la popup
     let popupContent = `
-    <div id="close"><p>×</p></div>
+    <div id="close" class="${classePremierType}"><p>×</p></div>
     <div class="container">
         <div class="bio">
-            <div class="image">
+            <div class="image" id="borderImage">
                 <img src="../webp/images/${idPokemonImage(pokemonData)}.webp" alt="${pokemonData.pokemon_name}"></img>
                 <p>${pokemonData.pokemon_name}</p>
             </div>
@@ -193,7 +205,7 @@ function displayPopup(popup, pokemonData) {
             </div>
         </div>
         <div class="buttonAttacks">
-            <button id="showChargedMoves" class="active">Charged Moves</button>
+            <button id="showChargedMoves" class="${classePremierType}">Charged Moves</button>
             <button id="showFastMoves">Fast Moves</button>
         </div>
         <div class="attacks">
@@ -224,8 +236,8 @@ function displayPopup(popup, pokemonData) {
     showChargedMovesButton.addEventListener('click', function () {
         document.getElementById('chargedAttacksContent').style.display = 'block';
         document.getElementById('fastAttacksContent').style.display = 'none';
-        showChargedMovesButton.classList.add('active');
-        showFastMovesButton.classList.remove('active');
+        showChargedMovesButton.classList.add(classePremierType);
+        showFastMovesButton.classList.remove(classePremierType);
     });
 
     // écouteur pour afficher les attaques rapides
@@ -233,8 +245,8 @@ function displayPopup(popup, pokemonData) {
     showFastMovesButton.addEventListener('click', function () {
         document.getElementById('chargedAttacksContent').style.display = 'none';
         document.getElementById('fastAttacksContent').style.display = 'block';
-        showChargedMovesButton.classList.remove('active');
-        showFastMovesButton.classList.add('active');
+        showChargedMovesButton.classList.remove(classePremierType);
+        showFastMovesButton.classList.add(classePremierType);
     });
 
     // on affiche la popup
@@ -291,7 +303,7 @@ function creation_liste_filtre() {
 
     var defaultOptionGen = document.createElement('option');
     defaultOptionGen.value = "";
-    defaultOptionGen.textContent = "Génération";
+    defaultOptionGen.textContent = "Generation";
     liste_filtre_gen.appendChild(defaultOptionGen);
 
     for (let num_gen in generation) {

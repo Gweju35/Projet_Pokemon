@@ -1,8 +1,3 @@
-/* FFCB05 jaune
-C7A008 jaune foncé
-3860AB bleu
-1D2C5E bleu foncé*/
-
 .popup {
     display: none;
     position: fixed;
@@ -28,7 +23,6 @@ C7A008 jaune foncé
 }
 
 .image {
-    border: solid 3px blue;
     text-align: center;
     border-radius: 5px;
     padding: 10px;
@@ -57,7 +51,6 @@ C7A008 jaune foncé
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: #ff0000;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -73,7 +66,6 @@ C7A008 jaune foncé
 .popup p {
     margin: 5px 0;
 }
-
 
 .type img {
     width: 20px;
@@ -91,9 +83,6 @@ C7A008 jaune foncé
     border-radius: 5px;
 }
 
-
-
-
 .infos div {
     margin: 10px 0;
 }
@@ -103,26 +92,30 @@ C7A008 jaune foncé
     flex-direction: row;
     align-items: center;
     gap: 10px;
-    
+
 }
-
-
 
 .id, .stats {
     display: flex;
     flex-direction: row;
 }
 
-.id p, .stats p, .types p {
+.types p {
     margin: 0 10px 0 0;
 }
 
+.id p {
+    margin: 0 30px 0 0;
+}
 
+.stats p {
+    margin: 0 18px 0 0;
+
+}
 
 .buttonAttacks {
     margin: 10px 0;
 }
-
 
 #showChargedMoves, #showFastMoves {
     cursor: pointer;
@@ -135,10 +128,6 @@ C7A008 jaune foncé
     color: white;
 }
 
-.buttonAttacks .active {
-    background-color: var(--grass);
-}
-
 .attacks-content li {
     display: flex;
     flex-direction: row;
@@ -147,11 +136,9 @@ C7A008 jaune foncé
     border-bottom: solid 1px #000000;
 }
 
-
-
 .attacks {
-    max-height: 170px; /* Taille maximale pour la liste des attaques */
-    overflow-y: auto; /* Activer le défilement vertical si nécessaire */
+    max-height: 170px;
+    overflow-y: auto;
 }
 
 .attacks ul {
@@ -166,4 +153,297 @@ C7A008 jaune foncé
 
 .attacks ul.fast {
     display: none;
+}
+
+/* Réduire à partir de 1000px les tailles pour les petits écrans sans changer le flex-direction*/
+@media screen and (max-width: 1000px) {
+
+    .popup {
+        height: 70%;
+    }
+
+    .bio {
+        flex-direction: row;
+        gap: 20px;
+    }
+
+    .image img {
+        height: 80px;
+        width: 80px;
+    }
+
+    .type {
+        width: 80px;
+    }
+
+    .types {
+        gap: 5px;
+    }
+
+    .id, .stats {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .id p {
+        margin: 0;
+    }
+
+    .stats p {
+        margin: 0;
+    }
+
+    .buttonAttacks {
+        margin: 10px 0;
+    }
+
+    #showChargedMoves, #showFastMoves {
+        padding: 5px;
+    }
+
+    .attacks-content li {
+        padding: 5px;
+    }
+
+    .attacks ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    .attacks ul.charged {
+        display: block;
+    }
+
+    .attacks ul.fast {
+        display: none;
+    }
+}
+
+/* reduire a 550px */
+@media screen and (max-width: 550px) {
+
+    .popup {
+        height: 70%;
+    }
+
+    .type img {
+        width: 15px;
+        height: 15px;
+    }
+
+    .type {
+        gap: 5px;
+        border-radius: 0px;
+        align-items: center;
+    }
+
+    .bio {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .image img {
+        height: 60px;
+        width: 60px;
+    }
+
+    .type {
+        width: 60px;
+    }
+
+    .types {
+        gap: 5px;
+    }
+
+    .id, .stats {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .id p {
+        margin: 0;
+    }
+
+    .stats p {
+        margin: 0;
+    }
+
+    .buttonAttacks {
+        margin: 10px 0;
+    }
+
+    #showChargedMoves, #showFastMoves {
+        padding: 5px;
+    }
+
+    .attacks-content li {
+        padding: 5px;
+    }
+
+    .attacks ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    .attacks ul.charged {
+        display: block;
+    }
+
+    .attacks ul.fast {
+        display: none;
+    }
+}
+
+/* reduire a 500px, reduire les tailles de polices, les images, les boutons en laissant les flex-direction: row */
+@media screen and (max-width: 500px) {
+
+
+
+    .bio {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .type img {
+        width: 10px;
+        height: 10px;
+    }
+
+    .image img {
+        height: 50px;
+        width: 50px;
+    }
+
+    .types {
+        gap: 5px;
+    }
+
+    .id, .stats {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .id p {
+        margin: 0;
+    }
+
+    .stats p {
+        margin: 0;
+    }
+
+    .buttonAttacks {
+        margin: 10px 0;
+    }
+
+    #showChargedMoves, #showFastMoves {
+        padding: 5px;
+    }
+
+    .attacks-content li {
+        padding: 5px;
+    }
+
+    .attacks ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    .attacks ul.charged {
+        display: block;
+    }
+
+    .attacks ul.fast {
+        display: none;
+    }
+}
+
+/* a 475 reduire la taille des polices */
+@media screen and (max-width: 475px) {
+
+    .popup {
+        height: 70%;
+    }
+
+    .bio {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .type img {
+        width: 10px;
+        height: 10px;
+    }
+
+    .image img {
+        height: 50px;
+        width: 50px;
+    }
+
+    .types {
+        gap: 5px;
+    }
+
+    .id, .stats {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .id p {
+        margin: 0;
+    }
+
+    .stats p {
+        margin: 0;
+    }
+
+    .buttonAttacks {
+        margin: 10px 0;
+    }
+
+    #showChargedMoves, #showFastMoves {
+        padding: 5px;
+    }
+
+    .attacks-content li {
+        padding: 5px;
+    }
+
+    .attacks ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    .attacks ul.charged {
+        display: block;
+    }
+
+    .attacks ul.fast {
+        display: none;
+    }
+
+    p {
+        font-size: 0.8em;
+    }
+}
+
+@media screen and (max-width: 400px) {
+
+    .type {
+        padding: 5px;
+    }
+
+    p {
+        font-size: 0.7em;
+    }
+}
+
+@media screen and (max-width: 350px) {
+
+    .type {
+        padding: 2px;
+    }
+
+    p {
+        font-size: 0.6em;
+    }
 }
