@@ -1,13 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600;1,700&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap");
-
 /* FFCB05 jaune
 C7A008 jaune foncé
 3860AB bleu
 1D2C5E bleu foncé*/
-
-body {
-    font-family: "Josefin Sans", sans-serif;
-}
 
 .popup {
     display: none;
@@ -21,20 +15,22 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     padding: 20px;
+    transition: 0.5s ease-in-out;
+    height: 70%;
 }
 
 .bio {
-    border: solid 3px green;
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 20px;
-    margin-bottom: 100px;
+    margin-bottom: 20px;
 }
 
 .image {
     border: solid 3px blue;
     text-align: center;
+    border-radius: 5px;
     padding: 10px;
 }
 
@@ -43,6 +39,15 @@ body {
     height: 100px;
     width: 100px;
     background-color: transparent;
+}
+
+.image img:hover {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
 }
 
 #close {
@@ -87,12 +92,18 @@ body {
 }
 
 
-.infos {
-    border: solid 3px red;
-}
+
 
 .infos div {
-    margin: 20px 0;
+    margin: 10px 0;
+}
+
+.types {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    
 }
 
 
@@ -104,4 +115,55 @@ body {
 
 .id p, .stats p, .types p {
     margin: 0 10px 0 0;
+}
+
+
+
+.buttonAttacks {
+    margin: 10px 0;
+}
+
+
+#showChargedMoves, #showFastMoves {
+    cursor: pointer;
+    padding: 10px;
+    width: 120px;
+    margin: 0;
+    border: solid 1px;
+    transition: all 0.5s ease-in-out;
+    font-family: "Josefin Sans", sans-serif;
+    color: white;
+}
+
+.buttonAttacks .active {
+    background-color: var(--grass);
+}
+
+.attacks-content li {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: solid 1px #000000;
+}
+
+
+
+.attacks {
+    max-height: 170px; /* Taille maximale pour la liste des attaques */
+    overflow-y: auto; /* Activer le défilement vertical si nécessaire */
+}
+
+.attacks ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.attacks ul.charged {
+    display: block;
+}
+
+.attacks ul.fast {
+    display: none;
 }

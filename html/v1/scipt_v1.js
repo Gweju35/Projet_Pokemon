@@ -1,7 +1,8 @@
+// Import des données Pokémon depuis le fichier pokemons.js
 let listePokemons = Pokemon.import_pokemon();
 
-// <tbody> est l'endroit où on va afficher les Pokémons
-let tbody = document.getElementById('tableauPokemon');
+// endroit où on va afficher les Pokémons
+let tbody = document.getElementById('tableauPokemon'); 
 
 // On parcourt la liste d'objets des Pokémons et on créer une ligne de tableau pour chaque
 for (let pokemonId in listePokemons) {

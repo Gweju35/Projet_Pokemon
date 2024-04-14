@@ -1,45 +1,51 @@
-// Importez les données des Pokémon ici depuis votre fichier pokemons.js
+// Import des données Pokémon depuis le fichier pokemons.js
 let listePokemons = Pokemon.import_pokemon();
-console.log(listePokemons);
-let tbody = document.getElementById('tableauPokemon');
+
+// Import des données de génération depuis le fichier generation.js
 let generationData = Pokemon.importGeneration();
 
+// endroit où on va afficher les Pokémons
+let tbody = document.getElementById('tableauPokemon'); 
+
+// On parcourt la liste d'objets des Pokémons et on créer une ligne de tableau pour chaque
 for (let pokemonId in listePokemons) {
     let pokemon = listePokemons[pokemonId];
-    let generation = findGeneration(pokemon.pokemon_id, generationData);
+    let generation = findGeneration(pokemon.pokemon_id); // on cherche la gen du Pokémon
 
+    // on créer une nouvelle ligne de tableau
     let row = tbody.insertRow();
+
+    // on remplis les cellules de la ligne avec les données 
     let cellID = row.insertCell(0);
-    cellID.textContent = pokemon.pokemon_id;
+    cellID.textContent = pokemon.pokemon_id; // id du Pokémon
 
     let cellNom = row.insertCell(1);
-    cellNom.textContent = pokemon.pokemon_name;
+    cellNom.textContent = pokemon.pokemon_name; // nom du Pokémon
 
     let cellGen = row.insertCell(2);
-    cellGen.textContent = generation;
+    cellGen.textContent = generation; // génération du Pokémon
 
     let cellTypes = row.insertCell(3);
-    cellTypes.textContent = pokemon.types.join(', ');
+    cellTypes.textContent = pokemon.types.join(', '); // types du Pokémon
 
     let cellStamina = row.insertCell(4);
-    cellStamina.textContent = pokemon.base_stamina;
+    cellStamina.textContent = pokemon.base_stamina; // stamina du Pokémon
 
     let cellAttack = row.insertCell(5);
-    cellAttack.textContent = pokemon.base_attack;
+    cellAttack.textContent = pokemon.base_attack; // attaque du Pokémon
 
     let cellDefense = row.insertCell(6);
-    cellDefense.textContent = pokemon.base_defense;
+    cellDefense.textContent = pokemon.base_defense; // défense du Pokémon
 
-    let idFormat = idPokemonImage(pokemon);
+    let idFormat = idPokemonImage(pokemon); // on formate l'id du Pokémon pour retrouver l'image
     let cellImage = row.insertCell(7);
-    let img = document.createElement('img');
-    img.src = `../webp/images/${idFormat}.webp`;
-    img.alt = pokemon.pokemon_name;
-    cellImage.appendChild(img);
+    let img = document.createElement('img'); // on créer la balise img
+    img.src = `../webp/images/${idFormat}.webp`; // image du Pokémon
+    img.alt = pokemon.pokemon_name; 
+    cellImage.appendChild(img); 
 
     pokemon.generation = generation;
-    row.setAttribute('data-pokemon', JSON.stringify(pokemon));
-
+    row.setAttribute('data-pokemon', JSON.stringify(pokemon)); // sert pour l'affichage de la popup
 }
 
 // Fonction pour trouver le generation_number d'un Pokémon grâce à son ID
@@ -54,8 +60,6 @@ function findGeneration(pokemonId, generationData) {
     }
     return "Génération inconnue";
 }
-
-
 
 // Fonction pour formater l'ID du Pokémon pour retrouver l'image
 function idPokemonImage(pokemon) {
@@ -72,7 +76,7 @@ function idPokemonImage(pokemon) {
     return idNumber;
 }
 
-// Définition de la fonction showPage
+// Fonction pour afficher les Pokémons par page
 function showPage(page) {
     for (let i = 0; i < rows.length; i++) {
         if (i < (page - 1) * rowsPerPage || i >= page * rowsPerPage) {
@@ -83,7 +87,7 @@ function showPage(page) {
     }
 }
 
-// les boutons
+// les boutons 
 function updateButtons() {
     const totalPages = Math.ceil(rows.length / rowsPerPage);
     const prevButton = document.getElementById('prevPageButton');
@@ -139,15 +143,15 @@ document.getElementById('nextPageButton').addEventListener('click', function () 
 document.addEventListener('DOMContentLoaded', function () {
     let tbody = document.getElementById('tableauPokemon');
     let popup = document.getElementById('popupEvent');
-    // Ajoutez un événement de clic à chaque ligne du tableau
+    // on ajoute un évènement de clic sur chaque ligne du tableau
     tbody.addEventListener('click', function (event) {
         let target = event.target;
-        // Vérifiez si la cible du clic est une ligne du tableau
+        // on vérifie si la cible du clic est une ligne du tableau
         if (target.tagName === 'TD') {
-            // Récupérez les informations du Pokémon à partir de la ligne parente (tr)
+            // on récupère les infos du Pokémon à partir du <tr>
             let pokemonData = JSON.parse(target.parentNode.getAttribute('data-pokemon'));
-            // Affichez les informations du Pokémon dans la popup
-            displayPopup(popup, pokemonData);
+            // on affiche les infos dans la popup
+            displayPopup(popup, pokemonData); // fonction définie plus bas
         }
     });
 });
@@ -155,19 +159,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Fonction pour afficher les informations du Pokémon dans la popup
 function displayPopup(popup, pokemonData) {
-    // Vider le contenu précédent de la popup
+    // on vide le contenu précédent de la popup
     popup.innerHTML = '';
 
-    // Générer le contenu des attaques chargées avec les types
-    let chargedMoves = pokemonData.attacks.charged_moves.map(move => `${move.name} (${move.type})`).join(', ');
-
-    // Générer le contenu des attaques rapides avec les types
-    let fastMoves = pokemonData.attacks.fast_moves.map(move => `${move.name} (${move.type})`).join(', ');
+    // attaques chargées
+    let chargedMovesContent = pokemonData.attacks.charged_moves.map(move => `<li>${move.name} (${move.type})</li>`).join('');
+    // attaques rapides
+    let fastMovesContent = pokemonData.attacks.fast_moves.map(move => `<li>${move.name} (${move.type})</li>`).join('');
 
     let typesContent = pokemonData.types.map(type => {
-        // Obtenez la classe de couleur correspondant au type
+        // on obtinet la classe de couleur correspondant au type
         let colorClass = getTypeColorClass(type);
-        // Retourne un div avec le type et la classe de couleur
         return `<div class="type ${colorClass}">
                     <img src="../icons/${type}.svg" alt="${type}">        
                     <p>${type}</p>
@@ -175,51 +177,80 @@ function displayPopup(popup, pokemonData) {
     }).join('');
 
 
-    // Générer le nouveau contenu de la popup
+    // on génère le nouveau contenu de la popup
     let popupContent = `
-        <div id="close"><p>×</p></div>
-        <div class="container">
-            <div class="bio">
-                <div class="image">
-                    <img src="../webp/images/${idPokemonImage(pokemonData)}.webp" alt="${pokemonData.pokemon_name}"></img>
-                    <p>${pokemonData.pokemon_name}</p>
-                </div>
-                <div class="infos">
-                    <div class="id">
-                        <p>ID: ${pokemonData.pokemon_id}</p>
-                        <p>Generation: ${pokemonData.generation}</p>
-                    </div>
-                    <div class="types">
-                        ${typesContent}
-                    </div>
-                    <div class="stats">
-                        <p>Stamina: ${pokemonData.base_stamina}</p>
-                        <p>Attack: ${pokemonData.base_attack}</p>
-                        <p>Defense: ${pokemonData.base_defense}</p>
-                    </div>
-                </div>
+    <div id="close"><p>×</p></div>
+    <div class="container">
+        <div class="bio">
+            <div class="image">
+                <img src="../webp/images/${idPokemonImage(pokemonData)}.webp" alt="${pokemonData.pokemon_name}"></img>
+                <p>${pokemonData.pokemon_name}</p>
             </div>
-            <div class="attacks">
-                <p>Charged Moves: ${chargedMoves}</p>
-                <p>Fast Moves: ${fastMoves}</p>
+            <div class="infos">
+                <div class="id">
+                    <p>ID: ${pokemonData.pokemon_id}</p>
+                    <p>Generation: ${pokemonData.generation}</p>
+                </div>
+                <div class="types">
+                    ${typesContent}
+                </div>
+                <div class="stats">
+                    <p>Stamina: ${pokemonData.base_stamina}</p>
+                    <p>Attack: ${pokemonData.base_attack}</p>
+                    <p>Defense: ${pokemonData.base_defense}</p>
+                </div>
             </div>
         </div>
-    `;
+        <div class="buttonAttacks">
+            <button id="showChargedMoves" class="active">Charged Moves</button>
+            <button id="showFastMoves">Fast Moves</button>
+        </div>
+        <div class="attacks">
+            <div id="chargedAttacksContent" class="attacks-content">
+                <ul>
+                    ${chargedMovesContent}
+                </ul>
+            </div>
+            <div id="fastAttacksContent" class="attacks-content" style="display: none;">
+                <ul>
+                    ${fastMovesContent}
+                </ul>
+            </div>
+            </div>
+    </div>`;
 
-    // Ajouter le nouveau contenu à la popup
+    // on ajoute le nouveau contenu à la popup
     popup.innerHTML = popupContent;
 
-    // Ajouter l'écouteur d'événements pour fermer la popup
+    // écouteur pour fermer la popup
     let closePopup = document.getElementById('close');
     closePopup.addEventListener('click', function () {
         popup.style.display = 'none';
     });
 
-    // Afficher la popup
+    // écouteur pour afficher les attaques chargées
+    let showChargedMovesButton = document.getElementById('showChargedMoves');
+    showChargedMovesButton.addEventListener('click', function () {
+        document.getElementById('chargedAttacksContent').style.display = 'block';
+        document.getElementById('fastAttacksContent').style.display = 'none';
+        showChargedMovesButton.classList.add('active');
+        showFastMovesButton.classList.remove('active');
+    });
+
+    // écouteur pour afficher les attaques rapides
+    let showFastMovesButton = document.getElementById('showFastMoves');
+    showFastMovesButton.addEventListener('click', function () {
+        document.getElementById('chargedAttacksContent').style.display = 'none';
+        document.getElementById('fastAttacksContent').style.display = 'block';
+        showChargedMovesButton.classList.remove('active');
+        showFastMovesButton.classList.add('active');
+    });
+
+    // on affiche la popup
     popup.style.display = 'block';
 }
 
-
+// Fonction pour obtenir la classe de couleur correspondant au type
 function getTypeColorClass(type) {
     switch (type.toLowerCase()) {
         case 'bug':
